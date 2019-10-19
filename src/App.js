@@ -119,7 +119,7 @@ function App() {
 
   const getCountries = useCallback(async () => {
     try {
-      const response = await axios.get('https://asia-east2-sdg-progress.cloudfunctions.net/country_budgets');
+      const response = await axios.get('/api/country_budgets');
       setData(response.data)
     } catch(e) {
       console.log('error:', e)
