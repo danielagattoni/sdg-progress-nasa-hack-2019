@@ -8,12 +8,11 @@ import {
   InputField,
   Flex,
   Box,
-  Paragraph,
-  Select
+  Paragraph
 } from 'fannypack';
 import 'typeface-roboto-mono';
 import axios from 'axios';
-import { get } from 'lodash'
+import { get, isEmpty } from 'lodash'
 const theme = {
   global: {
     fontFamily: 'Roboto Mono',
@@ -93,6 +92,7 @@ const StyledAside = styled.aside`
   @media screen and (min-width: 500px) {
     grid-row: 3 / span 2;
     grid-column: 3;
+    min-height: 34rem;
   }
 `
 
@@ -112,24 +112,74 @@ const StyledMenu = styled.ul`
     justify-self: space-between;
   }
 `
+// fannypack select didnt work well, so I changed it by a normal select
+// https://css-tricks.com/styling-a-select-like-its-2019/
+const StyledSelect = styled.select`
+  display: block;
+  font-size: 16px;
+  font-family: sans-serif;
+  font-weight: 700;
+  color: #444;
+  line-height: 1.3;
+  padding: .6em 1.4em .5em .8em;
+  width: 100%;
+  max-width: 100%; 
+  box-sizing: border-box;
+  margin: 0;
+  border: 1px solid #aaa;
+  box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
+  border-radius: .3em;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #fff;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
+    linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%);
+  background-repeat: no-repeat, repeat;
+  background-position: right .7em top 50%, 0 0;
+  background-size: .65em auto, 100%;
+`
 
 function App() {
 
-  const [ data, setData ] = useState([])
+  const [data, setData] = useState(null)
+  const [selectedCountry, setSelectedCountry] = useState({
+    defence_budget: "",
+    economic_affairs_budget: "",
+    education_budget: "",
+    countryCode: "AUS"
+  })
 
   const getCountries = useCallback(async () => {
     try {
-     const resp = await axios.get('/api/country_data');
-     const payload = get(resp, 'data.data', [])
+      const resp = await axios.get('/api/country_data');
+      const payload = get(resp, 'data.data', [])
       setData(payload)
-    } catch(e) {
+    } catch (e) {
       console.log('error:', e)
     }
   }, []);
 
+// to control form input values via state `selectedCountry`
+  const handleInput = (fieldName, value) => {
+    setSelectedCountry({
+      ...selectedCountry,
+      [fieldName]: value
+    })
+  }
+
+  // when `getCountries` change, trigger this effect
   useEffect(() => {
     getCountries()
   }, [getCountries])
+
+  // everytime `data` change, trigger this effect
+  useEffect(() => {
+    if (!isEmpty(data)) {
+      const selectedTarget = data.find(country => country.countryCode === 'AUS')
+      setSelectedCountry(selectedTarget)
+    }
+  }, [data])
 
   return (
     <ThemeProvider theme={theme}>
@@ -173,22 +223,31 @@ function App() {
         <StyledAside>
           <Box width="100%" padding="major-3">
             <Paragraph use="h2" isSubHeading>Add a Government Budget (?)</Paragraph>
-            <FieldSet>
-              <Select
-                options={data && data.map(item => ({
-                  label: item.country, value: item.countryCode
-                }))
-              }
-              />
-              <InputField name="total" label="label" />
-              <InputField name="total" label="label" />
-              <InputField name="total" label="label" />
-              <InputField name="total" label="label" />
-              <InputField name="total" label="label" />
-              <Button width="100%">Submit</Button>
+            {!data && <div>loading...</div>}
+            {data && (
+              <FieldSet>
+                <StyledSelect
+                  placeholder="Select a country..."
+                  value={selectedCountry.countryCode}
+                  onChange={e => {
+                    const selectedTarget = data.find(country => country.countryCode === e.target.value)
+                    setSelectedCountry(selectedTarget)
+                  }}>
+                  {data && data.map(item => <option key={item.countryCode} value={item.countryCode}>{item.country}</option>)}
+                </StyledSelect>
+                <InputField onChange={(e) => {
+                  handleInput(e.target.name, e.target.value)
 
-            </FieldSet>
-
+                }} name="defence_budget" label="defence budget" value={selectedCountry.defence_budget.toString()} />
+                <InputField onChange={(e) => {
+                  handleInput(e.target.name, e.target.value)
+                }} name="economic_affairs_budget" label="economic affairs budget" value={selectedCountry.economic_affairs_budget.toString()} />
+                <InputField onChange={(e) => {
+                  handleInput(e.target.name, e.target.value)
+                }} name="education_budget" label="education budget" value={selectedCountry.education_budget.toString()} />
+                <Button width="100%">Submit</Button>
+              </FieldSet>
+            )}
           </Box>
         </StyledAside>
         <StyledFooter>
