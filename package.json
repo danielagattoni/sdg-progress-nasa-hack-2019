@@ -12,6 +12,7 @@
     "react-dom": "^16.10.2",
     "react-loads": "^8.3.8",
     "react-scripts": "3.2.0",
+    "recharts": "^1.8.3",
     "typeface-roboto-mono": "^0.0.75"
   },
   "scripts": {

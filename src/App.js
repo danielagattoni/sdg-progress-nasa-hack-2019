@@ -13,7 +13,7 @@ import {
 } from 'fannypack';
 import 'typeface-roboto-mono';
 import axios from 'axios';
-
+import { get } from 'lodash'
 const theme = {
   global: {
     fontFamily: 'Roboto Mono',
@@ -119,9 +119,9 @@ function App() {
 
   const getCountries = useCallback(async () => {
     try {
-      const response = await axios.get('/api/country_data');
-      console.log('response FE: --> ', response)
-      // setData(data)
+     const resp = await axios.get('/api/country_data');
+     const payload = get(resp, 'data.data', [])
+      setData(payload)
     } catch(e) {
       console.log('error:', e)
     }
@@ -174,12 +174,12 @@ function App() {
           <Box width="100%" padding="major-3">
             <Paragraph use="h2" isSubHeading>Add a Government Budget (?)</Paragraph>
             <FieldSet>
-              {/* <Select
-                options={data.data && data.data.map(item => ({
+              <Select
+                options={data && data.map(item => ({
                   label: item.country, value: item.countryCode
                 }))
               }
-              /> */}
+              />
               <InputField name="total" label="label" />
               <InputField name="total" label="label" />
               <InputField name="total" label="label" />
