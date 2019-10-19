@@ -119,11 +119,11 @@ function App() {
 
   const getCountries = useCallback(async () => {
     try {
-      const response = await axios.get('/api/country_budgets');
-      setData(response.data)
+      const response = await axios.get('/api/country_data');
+      console.log('response FE: --> ', response)
+      // setData(data)
     } catch(e) {
       console.log('error:', e)
-
     }
   }, []);
 
@@ -174,13 +174,12 @@ function App() {
           <Box width="100%" padding="major-3">
             <Paragraph use="h2" isSubHeading>Add a Government Budget (?)</Paragraph>
             <FieldSet>
-              <Select
-                options={[
-                  { label: 'Sunny', value: 'sunny' },
-                  { label: 'Windy', value: 'windy' },
-                  { label: 'Overcast', value: 'overcast' }
-                ]}
-              />
+              {/* <Select
+                options={data.data && data.data.map(item => ({
+                  label: item.country, value: item.countryCode
+                }))
+              }
+              /> */}
               <InputField name="total" label="label" />
               <InputField name="total" label="label" />
               <InputField name="total" label="label" />
