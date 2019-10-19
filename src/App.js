@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   ThemeProvider,
   Button,
@@ -8,9 +8,11 @@ import {
   InputField,
   Flex,
   Box,
-  Paragraph
+  Paragraph,
+  Select
 } from 'fannypack';
 import 'typeface-roboto-mono';
+import axios from 'axios';
 
 const theme = {
   global: {
@@ -112,6 +114,23 @@ const StyledMenu = styled.ul`
 `
 
 function App() {
+
+  const [ data, setData ] = useState([])
+
+  const getCountries = useCallback(async () => {
+    try {
+      const response = await axios.get('https://asia-east2-sdg-progress.cloudfunctions.net/country_budgets');
+      setData(response.data)
+    } catch(e) {
+      console.log('error:', e)
+
+    }
+  }, []);
+
+  useEffect(() => {
+    getCountries()
+  }, [getCountries])
+
   return (
     <ThemeProvider theme={theme}>
       <Container>
@@ -123,7 +142,7 @@ function App() {
                 rel="noopener noreferrer"
                 target="_blank"
                 href="https://2019.spaceappschallenge.org/challenges/living-our-world/smash-your-sdgs/teams/team-amulen/members">
-                  The Team
+                The Team
               </a>
             </li>
             <li>
@@ -131,24 +150,23 @@ function App() {
                 rel="noopener noreferrer"
                 target="_blank"
                 href="https://2019.spaceappschallenge.org/challenges/living-our-world/smash-your-sdgs/teams/team-amulen/project">
-                  About the project
+                About the project
               </a>
             </li>
-
           </StyledMenu>
         </StyledNav>
         <StyledHeader>
           <Flex alignItems="center" column padding="major-2">
             <h1>SDG Progress</h1>
             <Paragraph style={{
-                width: "60%",
+              width: "60%",
             }}>
-              A tool that simulates and visualizes the progress of a United Nation’s Sustainable development Goal, one chart at a time. 
+              A tool that simulates and visualizes the progress of a United Nation’s Sustainable development Goal, one chart at a time.
             </Paragraph>
           </Flex>
         </StyledHeader>
         <StyledMain>
-         <Box width="100%" padding="major-3">
+          <Box width="100%" padding="major-3">
             Charts goes here
           </Box>
         </StyledMain>
@@ -156,6 +174,13 @@ function App() {
           <Box width="100%" padding="major-3">
             <Paragraph use="h2" isSubHeading>Add a Government Budget (?)</Paragraph>
             <FieldSet>
+              <Select
+                options={[
+                  { label: 'Sunny', value: 'sunny' },
+                  { label: 'Windy', value: 'windy' },
+                  { label: 'Overcast', value: 'overcast' }
+                ]}
+              />
               <InputField name="total" label="label" />
               <InputField name="total" label="label" />
               <InputField name="total" label="label" />
@@ -164,16 +189,16 @@ function App() {
               <Button width="100%">Submit</Button>
 
             </FieldSet>
-          
-            </Box>
-          </StyledAside>
+
+          </Box>
+        </StyledAside>
         <StyledFooter>
           <Flex column padding="major-3">
-          <Paragraph>
-            Designed, built, and maintained by Daniela, Melissa and Craig
+            <Paragraph>
+              Designed, built, and maintained by Daniela, Melissa and Craig
           </Paragraph>
-          <Paragraph>
-            NASA Space Apps 2019
+            <Paragraph>
+              NASA Space Apps 2019
           </Paragraph>
           </Flex>
         </StyledFooter>
