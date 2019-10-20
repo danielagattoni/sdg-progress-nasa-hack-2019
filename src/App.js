@@ -12,8 +12,8 @@ import {
 } from 'fannypack';
 import 'typeface-roboto-mono';
 import axios from 'axios';
-import { get, isEmpty } from 'lodash'
-import BarChartIndicators from './BarChartIndicators';
+import { get, isEmpty } from 'lodash';
+import BarChartModule from './BarChartModule';
 
 const theme = {
   global: {
@@ -147,17 +147,19 @@ const StyledSelect = styled.select`
   background-position: right .7em top 50%, 0 0;
   background-size: .65em auto, 100%;
 `
-const mocked_data = [
-  {
-    target: 'Target 3.1', indicator1: 30,
+const mocked_data = {
+  "3.1": {
+    "maternalMortalityRate": 5.94881382022147
   },
-  {
-    target: 'Target 3.2', indicator1: 20, indicator2: 10
+  "3.2": {
+    "u5MortalityRate": 3.688607,
+    "neonatalMortalityRate": 2.271836
   },
-  {
-    target: 'Target 3.7', indicator1: 100,
-  },
-];
+  "3.7": {
+    "modernContraceptiveRate": 64.65,
+    "adolescentFertilityRate": ""
+  }
+};
 
 function App() {
   const [data, setData] = useState(null)
@@ -226,7 +228,6 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Container>
-        {console.log('chartData: ', chartData)}
         <StyledNav>
           <StyledMenu>
             <li>SDG Progress</li>
@@ -260,7 +261,7 @@ function App() {
         </StyledHeader>
         <StyledMain>
           <Box width="100%" padding="major-3">
-            <BarChartIndicators data={mocked_data} />
+            <BarChartModule data={mocked_data} />
           </Box>
         </StyledMain>
         <StyledAside>
@@ -268,7 +269,7 @@ function App() {
             <Paragraph use="h2" isSubHeading>Add a Government Budget (?)</Paragraph>
             {!data && < div>loading...</div>}
             {data && selectedCountry && (
-              < FieldSet>
+              <FieldSet>
                 <StyledSelect
                   placeholder="Select a country..."
                   value={selectedCountry.countryCode}
