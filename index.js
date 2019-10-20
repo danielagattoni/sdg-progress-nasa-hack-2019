@@ -13,12 +13,14 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('/api/country_data', async (req, res) => {
- try {
-  const { data } = await axios.get('https://asia-east2-sdg-progress.cloudfunctions.net/country_data')
-  res.json(data)
- } catch (e) {
-   console.log('e -->', e)
- }
+  try {
+    const { data } = await axios.get('https://asia-east2-sdg-progress.cloudfunctions.net/country_data')
+    console.log(data);
+
+    console.log('data get ~~~~ ', data)
+  } catch (e) {
+    console.log('e -->', e)
+  }
 })
 
 app.post('/api/budget', async (req, res) => {
@@ -48,8 +50,7 @@ app.post('/api/budget', async (req, res) => {
     console.log('req.body: ', req.body)
     console.log('-----')
      console.log('api/budget errorr ------> ', e)
-   }
-  
+   } 
 })
 
 app.get('*', (req, res) => {
