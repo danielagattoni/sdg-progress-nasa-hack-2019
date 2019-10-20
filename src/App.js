@@ -161,6 +161,7 @@ function App() {
     recreationCultureAndReligionBudget: "",
     socialProtectionBudget: ""
   })
+  const [chartData, seChartData] = useState(null)
 
   const getCountries = useCallback(async () => {
     try {
@@ -188,8 +189,9 @@ function App() {
         url: '/api/budget',
         data: selectedCountry
       });
-      const result = get(resp, 'data', [])
-      console.log('result: ', result.status)
+      const data = get(resp, 'data', null)
+      seChartData(data)
+      console.log('submitData data: ', data)
     } catch (e) {
       console.log('error:', e)
     }
@@ -211,6 +213,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Container>
+        {console.log('chartData: ', chartData)}
         <StyledNav>
           <StyledMenu>
             <li>SDG Progress</li>
