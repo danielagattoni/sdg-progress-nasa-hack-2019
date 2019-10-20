@@ -15,9 +15,7 @@ app.use(express.static(path.join(__dirname, 'build')));
 app.get('/api/country_data', async (req, res) => {
   try {
     const { data } = await axios.get('https://asia-east2-sdg-progress.cloudfunctions.net/country_data')
-    console.log(data);
-
-    console.log('data get ~~~~ ', data)
+    res.json(data)
   } catch (e) {
     console.log('e -->', e)
   }
@@ -26,7 +24,6 @@ app.get('/api/country_data', async (req, res) => {
 app.post('/api/budget', async (req, res) => {
   try {
     // Send a POST request
-    //console.log(req.body)
     const { data } = await axios({
       method: 'post',
       url: 'https://asia-east2-sdg-progress.cloudfunctions.net/sdg_predictions',
@@ -46,10 +43,7 @@ app.post('/api/budget', async (req, res) => {
     });
     res.json(data)
    } catch (e) {
-    console.log('-----')
-    console.log('req.body: ', req.body)
-    console.log('-----')
-     console.log('api/budget errorr ------> ', e)
+     console.log('api/budget error ------> ', e)
    } 
 })
 
