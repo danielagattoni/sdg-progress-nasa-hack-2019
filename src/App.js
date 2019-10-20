@@ -163,16 +163,18 @@ function App() {
   const [data, setData] = useState(null)
   const [selectedCountry, setSelectedCountry] = useState({
     countryCode: "AUS",
-    defenceBudget: "",
-    economicAffairsBudget: "",
-    educationBudget: "",
-    environmentProtectionBudget: "",
-    generalPublicServicesBudget: "",
-    healthBudget: "",
-    housingAndCommunityAmenitiesBudget: "",
-    publicOrderAndSafetyBudget: "",
-    recreationCultureAndReligionBudget: "",
-    socialProtectionBudget: ""
+    budgets: {
+      defenceBudget: "",
+      economicAffairsBudget: "",
+      educationBudget: "",
+      environmentProtectionBudget: "",
+      generalPublicServicesBudget: "",
+      healthBudget: "",
+      housingAndCommunityAmenitiesBudget: "",
+      publicOrderAndSafetyBudget: "",
+      recreationCultureAndReligionBudget: "",
+      socialProtectionBudget: ""
+    }
   })
   const [chartData, seChartData] = useState(null)
 
@@ -190,7 +192,10 @@ function App() {
   const handleInput = (fieldName, value) => {
     setSelectedCountry({
       ...selectedCountry,
-      [fieldName]: value
+      budgets: {
+        ...selectedCountry.budgets,
+        [fieldName]: value
+      }
     })
   }
 
@@ -268,7 +273,7 @@ function App() {
             <Paragraph use="h2" isSubHeading>Add a Government Budget (?)</Paragraph>
             {!data && < div>loading...</div>}
             {data && selectedCountry && (
-              < FieldSet>
+              <FieldSet>
                 <StyledSelect
                   placeholder="Select a country..."
                   value={selectedCountry.countryCode}
@@ -281,34 +286,34 @@ function App() {
                 </StyledSelect>
                 <InputField onChange={(e) => {
                   handleInput(e.target.name, e.target.value)
-                }} name="defenceBudget" label="Defence" value={selectedCountry.defenceBudget.toString()} />
+                }} name="defenceBudget" label="Defence" value={selectedCountry.budgets.defenceBudget.toString()} />
                 <InputField onChange={(e) => {
                   handleInput(e.target.name, e.target.value)
-                }} name="economicAffairsBudget" label="Economic affairs" value={selectedCountry.economicAffairsBudget.toString()} />
+                }} name="economicAffairsBudget" label="Economic affairs" value={selectedCountry.budgets.economicAffairsBudget.toString()} />
                 <InputField onChange={(e) => {
                   handleInput(e.target.name, e.target.value)
-                }} name="educationBudget" label="Education" value={selectedCountry.educationBudget.toString()} />
+                }} name="educationBudget" label="Education" value={selectedCountry.budgets.educationBudget.toString()} />
                 <InputField onChange={(e) => {
                   handleInput(e.target.name, e.target.value)
-                }} name="environmentProtectionBudget" label="Environment protection" value={selectedCountry.environmentProtectionBudget.toString()} />
+                }} name="environmentProtectionBudget" label="Environment protection" value={selectedCountry.budgets.environmentProtectionBudget.toString()} />
                 <InputField onChange={(e) => {
                   handleInput(e.target.name, e.target.value)
-                }} name="generalPublicServicesBudget" label="General public services" value={selectedCountry.generalPublicServicesBudget.toString()} />
+                }} name="generalPublicServicesBudget" label="General public services" value={selectedCountry.budgets.generalPublicServicesBudget.toString()} />
                 <InputField onChange={(e) => {
                   handleInput(e.target.name, e.target.value)
-                }} name="healthBudget" label="Health" value={selectedCountry.healthBudget.toString()} />
+                }} name="healthBudget" label="Health" value={selectedCountry.budgets.healthBudget.toString()} />
                 <InputField onChange={(e) => {
                   handleInput(e.target.name, e.target.value)
-                }} name="housingAndCommunityAmenitiesBudget" label="Housing and community amenities" value={selectedCountry.housingAndCommunityAmenitiesBudget.toString()} />
+                }} name="housingAndCommunityAmenitiesBudget" label="Housing and community amenities" value={selectedCountry.budgets.housingAndCommunityAmenitiesBudget.toString()} />
                 <InputField onChange={(e) => {
                   handleInput(e.target.name, e.target.value)
-                }} name="publicOrderAndSafetyBudget" label="Public order and safety" value={selectedCountry.publicOrderAndSafetyBudget.toString()} />
+                }} name="publicOrderAndSafetyBudget" label="Public order and safety" value={selectedCountry.budgets.publicOrderAndSafetyBudget.toString()} />
                 <InputField onChange={(e) => {
                   handleInput(e.target.name, e.target.value)
-                }} name="recreationCultureAndReligionBudget" label="Recreation culture and religion" value={selectedCountry.recreationCultureAndReligionBudget.toString()} />
+                }} name="recreationCultureAndReligionBudget" label="Recreation culture and religion" value={selectedCountry.budgets.recreationCultureAndReligionBudget.toString()} />
                 <InputField onChange={(e) => {
                   handleInput(e.target.name, e.target.value)
-                }} name="socialProtectionBudget" label="Social protection" value={selectedCountry.socialProtectionBudget.toString()} />
+                }} name="socialProtectionBudget" label="Social protection" value={selectedCountry.budgets.socialProtectionBudget.toString()} />
 
                 <Button width="100%" onClick={() => submitData()}>Submit</Button>
               </FieldSet>
