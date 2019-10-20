@@ -26,29 +26,31 @@ app.get('/api/country_data', async (req, res) => {
 app.post('/api/budget', async (req, res) => {
   try {
     // Send a POST request
+    //console.log(req.body)
     const { data } = await axios({
       method: 'post',
       url: 'https://asia-east2-sdg-progress.cloudfunctions.net/sdg_predictions',
       data: {
         country: req.body.country,
-        defence_budget: req.body.defenceBudget,
-        economic_affairs_budget: req.body.economicAffairsBudget,
-        education_budget: req.body.educationBudget,
-        environment_protection_budget: req.body.environmentProtectionBudget,
-        general_public_services_budget: req.body.generalPublicServicesBudget,
-        health_budget: req.body.healthBudget,
-        housing_and_community_amenities_budget: req.body.housingAndCommunityAmenitiesBudget,
-        public_order_and_safety_budget: req.body.publicOrderAndSafetyBudget,
-        recreation_culture_and_religion_budget: req.body.recreationCultureAndReligionBudget,
-        social_protection_budget: req.body.socialProtectionBudget
+        defence_budget: req.body.budgets.defenceBudget,
+        economic_affairs_budget: req.body.budgets.economicAffairsBudget ,
+        education_budget: req.body.budgets.educationBudget ,
+        environment_protection_budget: req.body.budgets.environmentProtectionBudget ,
+        general_public_services_budget: req.body.budgets.generalPublicServicesBudget ,
+        health_budget: req.body.budgets.healthBudget ,
+        housing_and_community_amenities_budget: req.body.budgets.housingAndCommunityAmenitiesBudget ,
+        public_order_and_safety_budget: req.body.budgets.publicOrderAndSafetyBudget ,
+        recreation_culture_and_religion_budget: req.body.budgets.recreationCultureAndReligionBudget ,
+        social_protection_budget: req.body.budgets.socialProtectionBudget  
       }
     });
-    console.log('data post ~~~~ ', data)
     res.json(data)
-  } catch (e) {
-    console.log('api/budget errorr ------> ', e)
-  }
-
+   } catch (e) {
+    console.log('-----')
+    console.log('req.body: ', req.body)
+    console.log('-----')
+     console.log('api/budget errorr ------> ', e)
+   } 
 })
 
 app.get('*', (req, res) => {
