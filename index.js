@@ -21,26 +21,30 @@ app.get('/api/country_data', async (req, res) => {
  }
 })
 
-app.post('/api/budget', (req, res) => {
+app.post('/api/budget', async (req, res) => {
   try {
-    console.log('req.body: ', req.body)
     // Send a POST request
-    // axios({
-    //   method: 'post',
-    //   url: '/user/12345',
-    //   data: {
-    //   firstName: 'Fred',
-    //   lastName: 'Flintstone'
-    // }
-    // });
-    res.status = 200;
-    return res.json({
-      message: 'success',
-      status: 200,
+    const { data } = await axios({
+      method: 'post',
+      url: 'https://asia-east2-sdg-progress.cloudfunctions.net/sdg_predictions',
+      data: {
+        country: req.body.country ,
+        defence_budget: req.body.defenceBudget,
+        economic_affairs_budget: req.body.economicAffairsBudget ,
+        education_budget: req.body.educationBudget ,
+        environment_protection_budget: req.body.environmentProtectionBudget ,
+        general_public_services_budget: req.body.generalPublicServicesBudget ,
+        health_budget: req.body.healthBudget ,
+        housing_and_community_amenities_budget: req.body.housingAndCommunityAmenitiesBudget ,
+        public_order_and_safety_budget: req.body.publicOrderAndSafetyBudget ,
+        recreation_culture_and_religion_budget: req.body.recreationCultureAndReligionBudget ,
+        social_protection_budget: req.body.socialProtectionBudget
+      }
     });
-
+    console.log('data ~~~~ ', data)
+    res.json(data)
    } catch (e) {
-     console.log('e -->', e)
+     console.log('api/budget errorr ------> ', e)
    }
   
 })
