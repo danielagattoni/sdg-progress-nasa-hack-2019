@@ -13,6 +13,8 @@ import {
 import 'typeface-roboto-mono';
 import axios from 'axios';
 import { get, isEmpty } from 'lodash'
+import BarChartIndicators from './BarChartIndicators';
+
 const theme = {
   global: {
     fontFamily: 'Roboto Mono',
@@ -91,7 +93,7 @@ const StyledMain = styled.main`
 `
 
 const StyledAside = styled.aside`
-  background-color: #fff;  
+  background-color: #fff;
   border: 2px dashed #000;
   display: flex;
 
@@ -129,7 +131,7 @@ const StyledSelect = styled.select`
   line-height: 1.3;
   padding: .6em 1.4em .5em .8em;
   width: 100%;
-  max-width: 100%; 
+  max-width: 100%;
   box-sizing: border-box;
   margin: 0;
   border: 1px solid #aaa;
@@ -247,14 +249,14 @@ function App() {
         </StyledHeader>
         <StyledMain>
           <Box width="100%" padding="major-3">
-            Charts goes here
+            {/* <BarChartIndicators /> */}
           </Box>
         </StyledMain>
         <StyledAside>
           <Box width="100%" padding="major-3">
             <Paragraph use="h2" isSubHeading>Add a Government Budget (?)</Paragraph>
             {!data && <div>loading...</div>}
-            {data && (
+            {data && selectedCountry && (
               <FieldSet>
                 <StyledSelect
                   placeholder="Select a country..."

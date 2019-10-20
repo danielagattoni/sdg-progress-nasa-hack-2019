@@ -16,7 +16,7 @@ import {
 //   return newDataSet;
 // };
 
-const BarChartMain = ({ data }: Props): Node => {
+const BarChartIndicators = ({ data }) => {
   console.log(data);
   // const dataTransformed = dataTransformer(data);
   const mocked_data = [
@@ -53,15 +53,15 @@ const BarChartMain = ({ data }: Props): Node => {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="roundNumber" />
+        <XAxis dataKey="name" />
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="tipresias" fill="#8884d8" />
-        <Bar dataKey="benchmark_estimator" fill="#82ca9d" />
+        <Bar dataKey="pv" fill="#8884d8" />
+        <Bar dataKey="uv" fill="#82ca9d" />
       </BarChart>
     </ResponsiveContainer>
   );
 };
 
-export default BarChartMain;
+export default BarChartIndicators;
