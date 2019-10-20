@@ -147,20 +147,19 @@ const StyledSelect = styled.select`
 `
 
 function App() {
-
   const [data, setData] = useState(null)
   const [selectedCountry, setSelectedCountry] = useState({
     countryCode: "AUS",
-    defence_budget: "",
-    economic_affairs_budget: "",
-    education_budget: "",
-    environment_protection_budget: "",
-    general_public_services_budget: "",
-    health_budget: "",
-    housing_and_community_amenities_budget: "",
-    public_order_and_safety_budget: "",
-    recreation_culture_and_religion_budget: "",
-    social_protection_budget: ""
+    defenceBudget: "",
+    economicAffairsBudget: "",
+    educationBudget: "",
+    environmentProtectionBudget: "",
+    generalPublicServicesBudget: "",
+    healthBudget: "",
+    housingAndCommunityAmenitiesBudget: "",
+    publicOrderAndSafetyBudget: "",
+    recreationCultureAndReligionBudget: "",
+    socialProtectionBudget: ""
   })
 
   const getCountries = useCallback(async () => {
@@ -179,6 +178,21 @@ function App() {
       ...selectedCountry,
       [fieldName]: value
     })
+  }
+
+  // when `submitData` we trigger the express api `/api/budget`
+  const submitData = async () => {
+    try {
+      const resp = await axios({
+        method: 'post',
+        url: '/api/budget',
+        data: selectedCountry
+      });
+      const result = get(resp, 'data', [])
+      console.log('result: ', result.status)
+    } catch (e) {
+      console.log('error:', e)
+    }
   }
 
   // when `getCountries` change, trigger this effect
@@ -244,42 +258,43 @@ function App() {
                   value={selectedCountry.countryCode}
                   onChange={e => {
                     const selectedTarget = data.find(country => country.countryCode === e.target.value)
+                    handleInput('countryCode', e.target.value)
                     setSelectedCountry(selectedTarget)
                   }}>
                   {data && data.map(item => <option key={item.countryCode} value={item.countryCode}>{item.country}</option>)}
                 </StyledSelect>
                 <InputField onChange={(e) => {
                   handleInput(e.target.name, e.target.value)
-                }} name="defence_budget" label="Defence" value={selectedCountry.defence_budget.toString()} />
+                }} name="defenceBudget" label="Defence" value={selectedCountry.defenceBudget.toString()} />
                 <InputField onChange={(e) => {
                   handleInput(e.target.name, e.target.value)
-                }} name="economic_affairs_budget" label="Economic affairs" value={selectedCountry.economic_affairs_budget.toString()} />
+                }} name="economicAffairsBudget" label="Economic affairs" value={selectedCountry.economicAffairsBudget.toString()} />
                 <InputField onChange={(e) => {
                   handleInput(e.target.name, e.target.value)
-                }} name="education_budget" label="Education" value={selectedCountry.education_budget.toString()} />
+                }} name="educationBudget" label="Education" value={selectedCountry.educationBudget.toString()} />
                 <InputField onChange={(e) => {
                   handleInput(e.target.name, e.target.value)
-                }} name="environment_protection_budget" label="Environment protection" value={selectedCountry.environment_protection_budget.toString()} />
+                }} name="environmentProtectionBudget" label="Environment protection" value={selectedCountry.environmentProtectionBudget.toString()} />
                 <InputField onChange={(e) => {
                   handleInput(e.target.name, e.target.value)
-                }} name="general_public_services_budget" label="General public services" value={selectedCountry.general_public_services_budget.toString()} />
+                }} name="generalPublicServicesBudget" label="General public services" value={selectedCountry.generalPublicServicesBudget.toString()} />
                 <InputField onChange={(e) => {
                   handleInput(e.target.name, e.target.value)
-                }} name="health_budget" label="Health" value={selectedCountry.health_budget.toString()} />
+                }} name="healthBudget" label="Health" value={selectedCountry.healthBudget.toString()} />
                 <InputField onChange={(e) => {
                   handleInput(e.target.name, e.target.value)
-                }} name="housing_and_community_amenities_budget" label="Housing and community amenities" value={selectedCountry.housing_and_community_amenities_budget.toString()} />
+                }} name="housingAndCommunityAmenitiesBudget" label="Housing and community amenities" value={selectedCountry.housingAndCommunityAmenitiesBudget.toString()} />
                 <InputField onChange={(e) => {
                   handleInput(e.target.name, e.target.value)
-                }} name="public_order_and_safety_budget" label="Public order and safety" value={selectedCountry.public_order_and_safety_budget.toString()} />
+                }} name="publicOrderAndSafetyBudget" label="Public order and safety" value={selectedCountry.publicOrderAndSafetyBudget.toString()} />
                 <InputField onChange={(e) => {
                   handleInput(e.target.name, e.target.value)
-                }} name="recreation_culture_and_religion_budget" label="Recreation culture and religion" value={selectedCountry.recreation_culture_and_religion_budget.toString()} />
+                }} name="recreationCultureAndReligionBudget" label="Recreation culture and religion" value={selectedCountry.recreationCultureAndReligionBudget.toString()} />
                 <InputField onChange={(e) => {
                   handleInput(e.target.name, e.target.value)
-                }} name="social_protection_budget" label="Social protection" value={selectedCountry.social_protection_budget.toString()} />
+                }} name="socialProtectionBudget" label="Social protection" value={selectedCountry.socialProtectionBudget.toString()} />
 
-                <Button width="100%">Submit</Button>
+                <Button width="100%" onClick={() => submitData() }>Submit</Button>
               </FieldSet>
             )}
           </Box>
