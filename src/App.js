@@ -14,6 +14,7 @@ import 'typeface-roboto-mono';
 import axios from 'axios';
 import { get, isEmpty } from 'lodash'
 import BarChartIndicators from './BarChartIndicators';
+import logo from './sdg-progress-logo.svg';
 
 const theme = {
   global: {
@@ -147,6 +148,11 @@ const StyledSelect = styled.select`
   background-position: right .7em top 50%, 0 0;
   background-size: .65em auto, 100%;
 `
+
+const AppLogo = styled.img`
+  height: 20vmin;
+`
+
 const mocked_data = [
   {
     target: 'Target 3.1', indicator1: 30,
@@ -255,9 +261,10 @@ function App() {
         </StyledNav>
         <StyledHeader>
           <Flex alignItems="center" column padding="major-2">
-            <h1>SDG Progress</h1>
+            <AppLogo src={logo} alt="SDG Progress logo" />
             <Paragraph style={{
               width: "60%",
+              paddingTop: '1rem'
             }}>
               A tool that simulates and visualizes the progress of a United Nation’s Sustainable development Goal, one chart at a time.
             </Paragraph>
