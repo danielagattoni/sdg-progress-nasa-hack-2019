@@ -8,7 +8,7 @@
     "body-parser": "^1.19.0",
     "fannypack": "^4.21.22",
     "http-proxy-middleware": "^0.20.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-loads": "^8.3.8",
